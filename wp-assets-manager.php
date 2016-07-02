@@ -1,9 +1,9 @@
 <?php
 /*
 	Plugin Name: Assets Manager for WordPress
-	Plugin URI: http://www.jackreichert.com/2014/01/12/introducing-assets-manager-for-wordpress/
-	Description: Plugin creates an assets manager. Providing a self hosted file sharing platfrom.
-	Version: 0.6.2
+	Plugin URI: https://www.jackreichert.com/2015/11/how-assets-manager-replaced-our-sharefile/
+	Description: Plugin creates an assets manager. Providing a self hosted file sharing platform.
+	Version: 1.0
 	Author: Jack Reichert
 	Author URI: http://www.jackreichert.com
 	Text Domain: assets-manager

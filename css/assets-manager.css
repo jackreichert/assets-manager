@@ -9,7 +9,7 @@
 .asset { width: 100%; border: 1px solid #dfdfdf; padding: 1em; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; position: relative; list-style: none; }
 .niceName input { width: 65%; }
 .assets { clear: both; margin: 0.5em 0; line-height: 2em; }
-.assetMeta { cursor: move; }
+#attached_assets .assetMeta { cursor: move; }
 .assets input[type=number], .asset_meta select { vertical-align: middle; font-size: 0.85em; }
 .assets input[type=number] { width: 4em; }
 .assets li { background: white; }

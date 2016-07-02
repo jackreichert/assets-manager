@@ -1,7 +1,7 @@
 var $ = jQuery,
 	WPAM = {
-		Utils: {
-			padDate: function (digit) {
+		Utils        : {
+			padDate            : function (digit) {
 				'use strict';
 				return (10 > digit) ? '0' + digit : digit;
 			},
@@ -10,22 +10,22 @@ var $ = jQuery,
 				var date = new Date();
 				return date.getFullYear() + '-' + WPAM.Utils.padDate(date.getMonth() + 1) + '-' + WPAM.Utils.padDate(date.getDate());
 			},
-			getAssetMeta: function (asset, duplicate) {
+			getAssetMeta       : function (asset, duplicate) {
 				'use strict';
 				var timeLen = parseInt($('.timeLen', asset).val()),
 					timeTerm = $('.timeTerm', asset).val();
 				return {
-					id: $(asset).attr('id').replace(/^\D+/g, ''),
-					name: $('.niceName input', asset).val(),
-					ext: $('.fileExt', asset).text(),
-					expires: ('never' !== timeTerm) ? timeLen + ' ' + timeTerm : timeTerm,
-					secure: $('.secureFile', asset).prop('checked') ? 'true' : 'false',
-					enabled: $('.enableFile', asset).prop('checked') ? 'true' : 'false',
+					id       : $(asset).attr('id').replace(/^\D+/g, ''),
+					name     : $('.niceName input', asset).val(),
+					ext      : $('.fileExt', asset).text(),
+					expires  : ('never' !== timeTerm) ? timeLen + ' ' + timeTerm : timeTerm,
+					secure   : $('.secureFile', asset).prop('checked') ? 'true' : 'false',
+					enabled  : $('.enableFile', asset).prop('checked') ? 'true' : 'false',
 					base_date: ($('.extendFile input', asset).prop('checked')) ? WPAM.Utils.getFormattedNowDate() : $('.baseDate', asset).val(),
-					order: $(asset).closest('#attached_assets').length ? $('#attached_assets li').index(asset) : 0
+					order    : $(asset).closest('#attached_assets').length ? $('#attached_assets li').index(asset) : 0
 				}
 			},
-			getOrder: function () {
+			getOrder           : function () {
 				'use strict';
 				var order = [];
 				$('#attached_assets .assets li').each(function (i, asset) {
@@ -34,15 +34,15 @@ var $ = jQuery,
 
 				return order;
 			},
-			isDraft: function () {
+			isDraft            : function () {
 				'use strict';
 				return 'Draft' === $('#post-status-display').text().trim();
 			},
-			isNewPost: function () {
+			isNewPost          : function () {
 				'use strict';
 				return -1 !== window.location.href.indexOf('post-new.php');
 			},
-			redirectToEditPost: function () {
+			redirectToEditPost : function () {
 				'use strict';
 				var newEditPostPath = location.pathname.replace('post-new.php', 'post.php') + '?post=' + $('#post_ID').val() + '&action=edit';
 				if (history.pushState) {
@@ -52,13 +52,13 @@ var $ = jQuery,
 				}
 			}
 		},
-		Ajax: {
-			reOrderAssets: function () {
+		Ajax         : {
+			reOrderAssets   : function () {
 				'use strict';
 				var params = {
-					action: 'order_assets',
-					id: document.getElementById('post_ID').value,
-					order: WPAM.Utils.getOrder(),
+					action : 'order_assets',
+					id     : document.getElementById('post_ID').value,
+					order  : WPAM.Utils.getOrder(),
 					amNonce: AM_Ajax.amNonce
 				};
 
@@ -69,11 +69,11 @@ var $ = jQuery,
 					});
 				});
 			},
-			trashAsset: function (asset) {
+			trashAsset      : function (asset) {
 				'use strict';
 				var params = {
-					action: 'trash_asset',
-					id: asset.attr('id').replace(/^\D+/g, ''),
+					action : 'trash_asset',
+					id     : asset.attr('id').replace(/^\D+/g, ''),
 					amNonce: AM_Ajax.amNonce
 				};
 
@@ -86,33 +86,38 @@ var $ = jQuery,
 			checkAssetParent: function (asset) {
 				'use strict';
 				var params = {
-					action: 'parent_asset',
-					id: asset.id,
+					action : 'parent_asset',
+					ID     : asset.id,
 					amNonce: AM_Ajax.amNonce
 				};
 
 				$.post(AM_Ajax.ajaxurl, params, function (response) {
 					var post_id = document.getElementById('post_ID').value,
-						note = "<br><em>" +
-							'<strong>Note:</strong> This will be duplicated becasue it has already been attached to <strong>another</strong> post.' +
-							' You can still remove it before attaching it.</em>';
-					if (response > 0 && parseInt(post_id) !== parseInt(response)) {
-						$('#pending_' + asset.id + ' .obfuscateFilename')
-							.prop('checked', true)
-							.prop('readonly', true)
-							.prop('disabled', true)
-							.after(note);
+						note;
+					if (parseInt(response) > 0) {
+						if (parseInt(post_id) === parseInt(response)) {
+							note = '<p><em><strong>Note:</strong> This has already been attached to <strong>this</strong> post.<br>Unless you duplicate the file, settings you assign here will override the existing settings.</em></p>';
+							$('#pending_' + asset.id + ' .obfuscateFilename')
+								.after(note);
+						} else {
+							note = '<p><em><strong>Note:</strong> This has already been attached to <strong>another</strong> post.</em></p>';
+							$('#pending_' + asset.id + ' .obfuscateFilename')
+								.prop('checked', true)
+								.prop('readonly', true)
+								.prop('disabled', true)
+								.after(note);
+						}
 					}
 				});
 			},
-			updateAsset: function (asset) {
+			updateAsset     : function (asset) {
 				'use strict';
 				var params = {
-					action: 'update_asset',
-					post_id: $('#post_ID').val(),
-					meta: WPAM.Utils.getAssetMeta(asset),
+					action   : 'update_asset',
+					post_id  : $('#post_ID').val(),
+					meta     : WPAM.Utils.getAssetMeta(asset),
 					duplicate: false,
-					amNonce: AM_Ajax.amNonce
+					amNonce  : AM_Ajax.amNonce
 				};
 
 				WPAM.UI.removeEditControls(asset);
@@ -124,15 +129,15 @@ var $ = jQuery,
 
 				WPAM.UI.disableEditFields(asset);
 			},
-			attachAsset: function (asset) {
+			attachAsset     : function (asset) {
 				'use strict';
 				var params = {
-					action: 'attach_asset',
-					post_id: $('#post_ID').val(),
-					isNew: WPAM.Utils.isNewPost() ? 'true' : 'false',
-					meta: WPAM.Utils.getAssetMeta(asset),
+					action   : 'attach_asset',
+					post_id  : $('#post_ID').val(),
+					isNew    : WPAM.Utils.isNewPost() ? 'true' : 'false',
+					meta     : WPAM.Utils.getAssetMeta(asset),
 					duplicate: $('.obfuscateFilename', asset).prop('checked'),
-					amNonce: AM_Ajax.amNonce
+					amNonce  : AM_Ajax.amNonce
 				};
 
 				$.post(AM_Ajax.ajaxurl, params, function (response) {
@@ -153,8 +158,8 @@ var $ = jQuery,
 
 			}
 		},
-		UI: {
-			updateAssetElement: function (asset_elem, data) {
+		UI           : {
+			updateAssetElement : function (asset_elem, data) {
 				'use strict';
 				var link = ( WPAM.Utils.isDraft() ) ? 'Please publish to activate links' : data.post_vals.url;
 				asset_elem.id = 'asset_' + data.asset_vals.id;
@@ -165,14 +170,14 @@ var $ = jQuery,
 
 				return asset_elem;
 			},
-			getAssetUrlElem: function (link) {
+			getAssetUrlElem    : function (link) {
 				'use strict';
 				return '<p class="linkElem">Link:' +
 					'<input class="assetLink" readonly="readonly" type="text" value="' + link + '">' +
 					'<a href="' + link + '" target="_BLANK">view</a></p>' +
 					'<div class="assetHits">Hits: 0</div>';
 			},
-			onUpdateEffect: function (asset) {
+			onUpdateEffect     : function (asset) {
 				'use strict';
 				$(asset).animate({
 					backgroundColor: '#EFFAFF'
@@ -182,18 +187,18 @@ var $ = jQuery,
 					})
 				});
 			},
-			toggleTimeLen: function (asset) {
+			toggleTimeLen      : function (asset) {
 				'use strict';
 				if ('never' === $('.timeTerm', asset).val()) {
 					$('.timeLen', asset).hide();
 				} else {
 					$('.timeLen', asset).show();
-					if ( '' === $('.timeLen', asset).val()) {
+					if ('' === $('.timeLen', asset).val()) {
 						$('.timeLen', asset).val(3);
 					}
 				}
 			},
-			enableEditFields: function (asset) {
+			enableEditFields   : function (asset) {
 				'use strict';
 				$('.assetVal', asset).each(function (i, elem) {
 					if ($(elem).prop('disabled') === true) {
@@ -202,7 +207,7 @@ var $ = jQuery,
 					}
 				});
 			},
-			cancelEditFields: function (asset) {
+			cancelEditFields   : function (asset) {
 				'use strict';
 				$('.assetVal', asset).each(function (i, elem) {
 					if ($(elem).is(':checkbox')) {
@@ -213,15 +218,15 @@ var $ = jQuery,
 					$(elem).prop('disabled', true);
 				});
 			},
-			disableEditFields: function (asset) {
+			disableEditFields  : function (asset) {
 				'use strict';
 				$('.assetVal', asset).each(function (i, elem) {
 					$(elem).prop('disabled', true);
 				});
 			},
 			cancelRemoveButtons: '<span class="corner cancel">cancel</span><span class="corner trash submitdelete">remove file</span>',
-			extendCheckbox: '<span class="extendFile"> Extend? <input type="checkbox" name="extend" class="assetVal"></span>',
-			addEditControls: function (asset) {
+			extendCheckbox     : '<span class="extendFile"> Extend? <input type="checkbox" name="extend" class="assetVal"></span>',
+			addEditControls    : function (asset) {
 				'use strict';
 				$('.edit', asset)
 					.addClass('button button-small done')
@@ -230,7 +235,7 @@ var $ = jQuery,
 					.before(WPAM.UI.cancelRemoveButtons);
 				$('.expires', asset).append(WPAM.UI.extendCheckbox);
 			},
-			removeEditControls: function (asset) {
+			removeEditControls : function (asset) {
 				'use strict';
 				$('.cancel, .trash, .expires .extendFile', asset).remove();
 				$('.done', asset)
@@ -238,7 +243,7 @@ var $ = jQuery,
 					.removeClass('button button-small done')
 					.text('edit');
 			},
-			updateDateExpiry: function (asset, response) {
+			updateDateExpiry   : function (asset, response) {
 				'use strict';
 				$('.assetMeta i', asset).text('(' + response.asset_vals.expiry_date + ')');
 				if (response.asset_vals.has_expired) {
@@ -247,7 +252,7 @@ var $ = jQuery,
 					$('.assetMeta i', asset).removeClass('expired');
 				}
 			},
-			renderAssetForm: function (assets) {
+			renderAssetForm    : function (assets) {
 				'use strict';
 
 				$.each(assets, function (i, asset) {
@@ -284,8 +289,8 @@ var $ = jQuery,
 				}
 
 				file_frame = wp.media.frames.file_frame = wp.media({
-					title: 'Select assets to attach',
-					frame: 'select',
+					title   : 'Select assets to attach',
+					frame   : 'select',
 					multiple: true
 				});
 
