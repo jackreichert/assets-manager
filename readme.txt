@@ -1,12 +1,12 @@
 === Assets Manager ===
 Contributors: jackreichert
 Donate link: http://www.jackreichert.com/buy-me-a-beer/
-Tags: uploads, file share, file management, asset management, assets, share file, content, links, admin, social
+Tags: uploads, file sharing, file management, asset management, assets, share file, content, links, admin, social
 Requires at least: 3.5
-Tested up to: 4.4
+Tested up to: 4.6
 Stable tag: trunk
-License: GPLv2
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Assets Manager for WordPress is a self hosted file sharing tool,  enable / disable links, set expiration and make files you share password protected.
 
@@ -20,6 +20,7 @@ Assets Manager is a self-hosted file sharing tool. Born out of the need for a fi
 * Set an expiration period for when the file link will expire.
 * Disable links after they've been shared (no more fretting when sending out emails).
 * Force anyone trying to access a link to log into your site.
+* Creates landing page for each asset post type collecting files uploaded together into one link.
 
 For more information check out the full blogpost about [Assets Manager](http://www.jackreichert.com/2014/01/12/introducing-assets-manager-for-wordpress/). 
 Questions? Comments? Requests? [Contact me](http://www.jackreichert.com/contact/).
@@ -64,7 +65,7 @@ Sure, just drag and drop. No need to save. All reordering happens via AJAX autom
 
 = Does this work with nginx? =
 
-Sure, I did notice that with Ubuntu + nginx I needed the following in my .conf file:
+Sure, in some installs you may need to add this to your conf file, I didn't though:
 location ~ ^/asset/(.*)$ {
 	try_files $uri $uri/ /index.php?$query_string;
 }
@@ -82,6 +83,9 @@ Answer to foo bar dilemma.
 5. Share.
 
 == Changelog ==
+= 1.0 =
+Complete refactor of entire codebase. Now leverages object oriented design, and wp.media.
+
 = 0.6.2 =
 Fixed js typo that was preventing reordering feature
 
@@ -139,15 +143,7 @@ Fixed additional HR added to posts (props @AEsco11)
 
 == Upgrade Notice ==
 
-= 0.1 = 
+* email assets (at) jackreichert (dot) com if you notice any issues upgrading.
 
-* This is the first version.
-
-== Roadmap ==
-
-= Future features I'm working on: =
-
-* **Sha1:** If you upload a file that already exists it will link that file to your post instead of keeping multiple versions of the file.
-* **File replacement:** After uploading and even sharing a file you'll be able to replace the file behind the active link with a file of the same MIME type.
-
+== Thanks ==
 Special thanks to @binmind for his extensive QA testing of the company’s plugin, his testing was crucial for development of the proof of concept and making sure everything was working as it should.

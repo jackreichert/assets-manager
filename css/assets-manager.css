@@ -1,3 +1,4 @@
+#upload_assets .asset-button { display: block; margin: 1em auto; }
 .corner { color: #0074a2; font-size: 1.25em; font-weight: bold; cursor: pointer; position: absolute; top: 0em; right: 0.5em; }
 .corner:hover { color: #83B4D8; }
 .edit { font-size: 0.85em; right: 0.85em; }
@@ -8,8 +9,8 @@
 .asset { width: 100%; border: 1px solid #dfdfdf; padding: 1em; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; position: relative; list-style: none; }
 .niceName input { width: 65%; }
 .assets { clear: both; margin: 0.5em 0; line-height: 2em; }
-.assetMeta { cursor: move; }
-.assets input[type=number], .asset_meta select { padding: 2px 4px; height: 2em; vertical-align: middle; font-size: 0.85em; }
+#attached_assets .assetMeta { cursor: move; }
+.assets input[type=number], .asset_meta select { vertical-align: middle; font-size: 0.85em; }
 .assets input[type=number] { width: 4em; }
 .assets li { background: white; }
 .assets li .expired { text-decoration: line-through; }
