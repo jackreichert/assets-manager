@@ -25,7 +25,7 @@ class Assets_Manager_Log_Assets_Access {
 	/**
 	 * Sets up log database on plugin activation
 	 */
-	public function create_log_table() {
+	public static function create_log_table() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . "assets_log";
 		$sql        = "CREATE TABLE $table_name (

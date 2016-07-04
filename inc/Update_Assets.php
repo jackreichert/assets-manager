@@ -47,8 +47,7 @@ class Assets_Manager_Update_Asset {
 
 		$this->update_asset_values( $asset_meta, $post_id, $should_duplicate );
 
-		$asset    = new Assets_Manager_Asset( $asset_meta['id'] );
-		$response = $this->build_response( $asset, $asset_meta );
+		$response = $this->build_response( $asset_meta );
 
 		$this->return_response( $response );
 	}
@@ -197,12 +196,12 @@ class Assets_Manager_Update_Asset {
 	/**
 	 * Builds ajax response
 	 *
-	 * @param $asset
 	 * @param $asset_meta
 	 *
 	 * @return array
 	 */
-	private function build_response( $asset, $asset_meta ) {
+	private function build_response( $asset_meta ) {
+		$asset    = new Assets_Manager_Asset( $asset_meta['id'] );
 		$asset_meta['has_expired'] = $asset->has_expired();
 		$asset_meta['expiry_date'] = $asset->get_expiry_date();
 

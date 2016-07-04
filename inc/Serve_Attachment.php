@@ -4,7 +4,7 @@ class Assets_Manager_Serve_Attachment {
 	public $attachment_id;
 	private $attachment_title;
 	private $path;
-	private $query;
+	private $post_type;
 
 	/**
 	 * Assets_Manager_Serve_Attachment constructor.
@@ -32,11 +32,11 @@ class Assets_Manager_Serve_Attachment {
 	 * @return bool
 	 */
 	public function main() {
-		$this->setup_vars();
+		global $wp_query;
+		$this->setup_vars( $wp_query );
 
-		// skip if not attachment
 		if ( ! $this->is_attachment() ) {
-			return false;
+			return;
 		}
 
 		// checks to see if asset is active, tie in plugins can hook here
@@ -52,21 +52,17 @@ class Assets_Manager_Serve_Attachment {
 	/**
 	 * Sets up varables needed to serve file
 	 */
-	private function setup_vars() {
-		global $wp_query;
-		$this->query            = $wp_query;
+	private function setup_vars( $wp_query ) {
 		$this->attachment_id    = $wp_query->posts[0]->ID;
 		$this->attachment_title = $wp_query->posts[0]->post_title;
-		$this->path             = get_attached_file( $this->attachment_id );
+		$this->post_type        = $wp_query->posts[0]->post_type;
+		if ( $this->is_attachment() ) {
+			$this->path = get_attached_file( $this->attachment_id );
+		}
 	}
 
-	/**
-	 * Checks if request is attachment
-	 *
-	 * @return mixed
-	 */
-	public function is_attachment() {
-		return $this->query->is_attachment;
+	private function is_attachment() {
+		return 'attachment' === $this->post_type;
 	}
 
 	/**

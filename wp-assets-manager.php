@@ -13,7 +13,6 @@
 $wp_assets_manager = new WP_Assets_Manager();
 
 class WP_Assets_Manager {
-	private $Log_Assets_Access;
 	private $Assets_Manager_Asset_Type;
 
 	/* 
@@ -49,6 +48,7 @@ class WP_Assets_Manager {
 		require_once 'inc/Log_Assets_Access.php';
 		require_once 'inc/Check_Asset_Restrictions.php';
 		require_once 'inc/Admin.php';
+		require_once 'inc/Save_AssetSet.php';
 		require_once 'inc/Asset_Post_Type.php';
 		require_once 'inc/Public.php';
 		require_once 'inc/Update_Assets.php';
@@ -58,24 +58,27 @@ class WP_Assets_Manager {
 	 * Instantiates all components of plugin
 	 */
 	public function instantiate_components() {
-		$this->Log_Assets_Access = new Assets_Manager_Log_Assets_Access();
-		$this->Log_Assets_Access->init();
-		
-		$this->Assets_Manager_Asset_Type = new Assets_Manager_Asset_Post_Type();
-		$this->Assets_Manager_Asset_Type->init();
+		$Log_Assets_Access = new Assets_Manager_Log_Assets_Access();
+		$Log_Assets_Access->init();
+
+		$Assets_Manager_Asset_Type = new Assets_Manager_Asset_Post_Type();
+		$Assets_Manager_Asset_Type->init();
 
 		$Check_Asset_Restrictions = new Check_Asset_Restrictions();
 		$Check_Asset_Restrictions->init();
 
 		$Serve_File = new Assets_Manager_Serve_Attachment();
 		$Serve_File->init();
-		
+
 		$Public = new Assets_Manager_Public();
 		$Public->init();
-		
+
 		$Assets_Manager_Admin = new Assets_Manager_Admin();
 		$Assets_Manager_Admin->init();
-		
+
+		$Assets_Manager_Save_Admin = new Assets_Manager_Save_Asset_Set();
+		$Assets_Manager_Save_Admin->init();
+
 		$Assets_Manager_Update_Asset = new Assets_Manager_Update_Asset();
 		$Assets_Manager_Update_Asset->init();
 	}
@@ -84,8 +87,10 @@ class WP_Assets_Manager {
 	 * Run this on plugin activation
 	 */
 	public function wp_assets_manager_activate() {
-		$this->Log_Assets_Access->create_log_table();
-		$this->Assets_Manager_Asset_Type->create();
+		Assets_Manager_Log_Assets_Access::create_log_table();
+
+		$Assets_Manager_Asset_Type = new Assets_Manager_Asset_Post_Type();
+		$Assets_Manager_Asset_Type->create();
 		flush_rewrite_rules();
 	}
 
