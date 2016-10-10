@@ -44,13 +44,14 @@ class WP_Assets_Manager {
 	 * Include all dependencies
 	 */
 	public function include_dependencies() {
-		require_once 'inc/Serve_Attachment.php';
+		require_once 'inc/Asset.php';
 		require_once 'inc/Log_Assets_Access.php';
+		require_once 'inc/Asset_Post_Type.php';
 		require_once 'inc/Check_Asset_Restrictions.php';
+		require_once 'inc/Serve_Attachment.php';
+		require_once 'inc/Public.php';
 		require_once 'inc/Admin.php';
 		require_once 'inc/Save_AssetSet.php';
-		require_once 'inc/Asset_Post_Type.php';
-		require_once 'inc/Public.php';
 		require_once 'inc/Update_Assets.php';
 	}
 
@@ -88,16 +89,22 @@ class WP_Assets_Manager {
 	 */
 	public function wp_assets_manager_activate() {
 		Assets_Manager_Log_Assets_Access::create_log_table();
-
-		$Assets_Manager_Asset_Type = new Assets_Manager_Asset_Post_Type();
-		$Assets_Manager_Asset_Type->create();
-		flush_rewrite_rules();
+		$this->create_asset_post_type();
 	}
 
 	/**
 	 * Clean up after deactivation
 	 */
 	public function wp_assets_manager_deactivate() {
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Create asset post type
+	 */
+	private function create_asset_post_type():void {
+		$Assets_Manager_Asset_Type = new Assets_Manager_Asset_Post_Type();
+		$Assets_Manager_Asset_Type->create();
 		flush_rewrite_rules();
 	}
 }

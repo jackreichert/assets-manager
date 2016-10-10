@@ -13,13 +13,13 @@ class Assets_Manager_Asset {
 	private $hits;
 
 	// meta fields
-	private $expires;
-	private $enabled;
 	private $base_date;
-	private $secure;
-	private $order;
+	private $enabled;
+	private $expires;
 	private $hash;
 	private $meta_keys;
+	private $order;
+	private $secure;
 
 	/**
 	 * Asset constructor.
@@ -53,7 +53,7 @@ class Assets_Manager_Asset {
 	/**
 	 * @return false|string
 	 */
-	public function get_link() {
+	public function get_permalink() {
 		return $this->link;
 	}
 
@@ -200,7 +200,7 @@ class Assets_Manager_Asset {
 	 * @return bool
 	 */
 	public function requires_login() {
-		return ( $this->secure && ! is_user_logged_in() );
+		return ( $this->is_secure() && ! is_user_logged_in() );
 	}
 
 	/**

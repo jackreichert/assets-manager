@@ -81,9 +81,9 @@ class Assets_Manager_Admin {
 								<span>Enable this file? <input class="enableFile assetVal" type="checkbox" disabled="disabled" <?php checked( true, $asset->is_enabled() ); ?>></span>
 							</p>
 							<p class="linkElem">Link:
-								<input class="assetLink" readonly="readonly" type="text" value="<?php echo ( 'publish' == $post->post_status ) ? $asset->get_link() : 'Please publish to activate links'; ?>">
+								<input class="assetLink" readonly="readonly" type="text" value="<?php echo ( 'publish' == $post->post_status ) ? $asset->get_permalink() : 'Please publish to activate links'; ?>">
 								<?php if ( 'publish' == $post->post_status ): ?>
-									<a href="<?php echo $asset->get_link(); ?>" target="_BLANK">view</a>
+									<a href="<?php echo $asset->get_permalink(); ?>" target="_BLANK">view</a>
 								<?php endif; ?>
 							</p>
 							<div class="assetHits">Hits: <?php echo $asset->get_meta( 'hits' ); ?></div>

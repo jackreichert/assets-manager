@@ -1,6 +1,4 @@
 <?php
-require_once 'Asset.php';
-
 class Check_Asset_Restrictions {
 
 	/**
@@ -40,7 +38,7 @@ class Check_Asset_Restrictions {
 		}
 
 		if ( $asset->requires_login() ) {
-			wp_redirect( wp_login_url( $asset->get_meta('link') ) );
+			wp_redirect( wp_login_url( $asset->get_permalink() ) );
 			exit();
 		}
 	}

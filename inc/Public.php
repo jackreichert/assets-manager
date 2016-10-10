@@ -69,7 +69,7 @@ class Assets_Manager_Public {
 
 	/**
 	 * Formats attachments as an unordered list
-	 * 
+	 *
 	 * @param $attachments
 	 *
 	 * @return string
@@ -79,7 +79,7 @@ class Assets_Manager_Public {
 		foreach ( $attachments as $i => $attach ) {
 			$asset = new Assets_Manager_Asset( $attach->ID );
 			if ( $asset->can_serve_asset() ) {
-				$content .= '<li><a href="' . $asset->get_meta('link') . '" target="_BLANK">' . $asset->get_meta('title') . '</a> <i>(' . $asset->get_meta('extension') . ')</i></li>';
+				$content .= '<li><a href="' . $asset->get_meta( 'link' ) . '" target="_BLANK">' . $asset->get_meta( 'title' ) . '</a> <i>(' . $asset->get_meta( 'extension' ) . ')</i></li>';
 			}
 		}
 		$content .= '</ul>';
