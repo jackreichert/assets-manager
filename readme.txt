@@ -2,8 +2,8 @@
 Contributors: jackreichert
 Donate link: http://www.jackreichert.com/buy-me-a-beer/
 Tags: uploads, file sharing, file management, asset management, assets, share file, content, links, admin, social
-Requires at least: 3.5
-Tested up to: 4.6.1
+Requires at least: 3.7
+Tested up to: 4.7
 Stable tag: trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -80,7 +80,9 @@ Answer to foo bar dilemma.
 == Changelog ==
 = 1.0 =
 * Complete refactor of entire codebase.
-* Leverages a better object oriented architecture, fopen, and wp.media.
+* Leverages a better object oriented architecture.
+* Uses fopen for better memory management.
+* Uses wp.media to better leverage core wp features.
 * You can now change the asset base permalink.
 
 = 0.6.2 =
