@@ -19,25 +19,10 @@ class WP_Assets_Manager {
 	 * Assets Manager class construct
 	 */
 	public function __construct() {
+		$this->include_dependencies();
 		$this->setup();
 		$this->teardown();
-
-		$this->include_dependencies();
 		$this->instantiate_components();
-	}
-
-	/**
-	 * Plugin activation
-	 */
-	public function setup() {
-		register_activation_hook( __FILE__, array( $this, 'wp_assets_manager_activate' ) );
-	}
-
-	/**
-	 * Plugin deactivation
-	 */
-	public function teardown() {
-		register_deactivation_hook( __FILE__, array( $this, 'wp_assets_manager_deactivate' ) );
 	}
 
 	/**
@@ -53,6 +38,20 @@ class WP_Assets_Manager {
 		require_once 'inc/Admin.php';
 		require_once 'inc/Save_AssetSet.php';
 		require_once 'inc/Update_Assets.php';
+	}
+
+	/**
+	 * Plugin activation
+	 */
+	public function setup() {
+		register_activation_hook( __FILE__, array( $this, 'wp_assets_manager_activate' ) );
+	}
+
+	/**
+	 * Plugin deactivation
+	 */
+	public function teardown() {
+		register_deactivation_hook( __FILE__, array( $this, 'wp_assets_manager_deactivate' ) );
 	}
 
 	/**
@@ -93,18 +92,18 @@ class WP_Assets_Manager {
 	}
 
 	/**
-	 * Clean up after deactivation
+	 * Create asset post type
 	 */
-	public function wp_assets_manager_deactivate() {
+	private function create_asset_post_type() {
+		$Assets_Manager_Asset_Type = new Assets_Manager_Asset_Post_Type();
+		$Assets_Manager_Asset_Type->create();
 		flush_rewrite_rules();
 	}
 
 	/**
-	 * Create asset post type
+	 * Clean up after deactivation
 	 */
-	private function create_asset_post_type():void {
-		$Assets_Manager_Asset_Type = new Assets_Manager_Asset_Post_Type();
-		$Assets_Manager_Asset_Type->create();
+	public function wp_assets_manager_deactivate() {
 		flush_rewrite_rules();
 	}
 }

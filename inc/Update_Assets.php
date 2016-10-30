@@ -162,7 +162,7 @@ class Assets_Manager_Update_Asset {
 		$asset->update_meta_values( $asset_meta );
 		$asset->update_title( $asset_meta['name'], $post_id );
 
-		$this->update_asset_filename( $asset->get_meta('id'), $asset->get_meta('hash'), $should_duplicate );
+		$this->update_asset_filename( $asset->get_meta( 'id' ), $asset->get_meta( 'hash' ), $should_duplicate );
 	}
 
 	/**
@@ -201,13 +201,13 @@ class Assets_Manager_Update_Asset {
 	 * @return array
 	 */
 	private function build_response( $asset_meta ) {
-		$asset    = new Assets_Manager_Asset( $asset_meta['id'] );
+		$asset                     = new Assets_Manager_Asset( $asset_meta['id'] );
 		$asset_meta['has_expired'] = $asset->has_expired();
 		$asset_meta['expiry_date'] = $asset->get_expiry_date();
 
 		$response = array(
 			'post_vals'  => array(
-				'url' => $asset->get_meta('link')
+				'url' => $asset->get_meta( 'link' )
 			),
 			'asset_vals' => $asset_meta
 		);
@@ -233,7 +233,7 @@ class Assets_Manager_Update_Asset {
 		$this->check_nonce();
 
 		$update_asset = array(
-			'ID'          => $_POST['ID'],
+			'ID'          => intval( $_POST['id'] ),
 			'post_parent' => 0
 		);
 		wp_update_post( $update_asset );

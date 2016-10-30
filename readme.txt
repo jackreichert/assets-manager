@@ -3,7 +3,7 @@ Contributors: jackreichert
 Donate link: http://www.jackreichert.com/buy-me-a-beer/
 Tags: uploads, file sharing, file management, asset management, assets, share file, content, links, admin, social
 Requires at least: 3.5
-Tested up to: 4.6
+Tested up to: 4.6.1
 Stable tag: trunk
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -42,14 +42,9 @@ Questions? Comments? Requests? [Contact me](http://www.jackreichert.com/contact/
 
 == Frequently Asked Questions ==
 
-= Why aren't the links working? =
-
-You may need to reset the permalinks by going to Settings > Permalinks and pressing the "Save Changes" button.
-
 = Why would I want to disable a link? =
 
 Let's say there is incorrect information in the file, or there is an updated version, now you can disable the link sent out, shared, published and send out a new one.
-
 
 = Are these files searchable? =
 
@@ -66,9 +61,9 @@ Sure, just drag and drop. No need to save. All reordering happens via AJAX autom
 = Does this work with nginx? =
 
 Sure, in some installs you may need to add this to your conf file, I didn't though:
-location ~ ^/asset/(.*)$ {
+`location ~ ^/asset/(.*)$ {
 	try_files $uri $uri/ /index.php?$query_string;
-}
+}`
 
 = What about foo bar? =
 
@@ -78,13 +73,15 @@ Answer to foo bar dilemma.
 
 1. Add a title.
 2. Add new files.
-3. Upload.
+3. Attach files.
 4. Publish.
 5. Share.
 
 == Changelog ==
 = 1.0 =
-Complete refactor of entire codebase. Now leverages object oriented design, and wp.media.
+* Complete refactor of entire codebase.
+* Leverages a better object oriented architecture, fopen, and wp.media.
+* You can now change the asset base permalink.
 
 = 0.6.2 =
 Fixed js typo that was preventing reordering feature

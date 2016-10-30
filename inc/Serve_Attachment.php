@@ -70,7 +70,13 @@ class Assets_Manager_Serve_Attachment {
 
 		ob_clean();
 		flush();
-		readfile( $this->path );
+
+		$handle = fopen( $this->path, "rb" );
+		while ( ! feof( $handle ) ) {
+			echo fread( $handle, 512 );
+		}
+		fclose( $handle );
+		
 		exit();
 	}
 

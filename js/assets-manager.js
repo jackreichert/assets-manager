@@ -50,6 +50,9 @@ var $ = jQuery,
 				} else {
 					window.location.href = newEditPostPath;
 				}
+			},
+			alreadyAttached    : function (asset_id) {
+				return $('#attached_assets li#asset_' + asset_id).length > 0;
 			}
 		},
 		Ajax         : {
@@ -95,12 +98,13 @@ var $ = jQuery,
 					var post_id = document.getElementById('post_ID').value,
 						note;
 					if (parseInt(response) > 0) {
-						if (parseInt(post_id) === parseInt(response)) {
-							note = '<p><em><strong>Note:</strong> This has already been attached to <strong>this</strong> post.<br>Unless you duplicate the file, settings you assign here will override the existing settings.</em></p>';
+						if (parseInt(post_id) === parseInt(response) && WPAM.Utils.alreadyAttached(asset.id)) {
+							note = '<p class="ob-message"><em><strong>Note:</strong> This has already been attached to <strong>this</strong> post.<br>Unless you duplicate the file, settings you assign here will override the existing settings.</em></p>';
 							$('#pending_' + asset.id + ' .obfuscateFilename')
 								.after(note);
-						} else {
-							note = '<p><em><strong>Note:</strong> This has already been attached to <strong>another</strong> post.</em></p>';
+							$('#pending_' + asset.id + ' .obfuscateFilename').prop('checked', true);
+						} else if (parseInt(response) > 0 && parseInt(post_id) !== parseInt(response)) {
+							note = '<p class="ob-message"><em><strong>Note:</strong> This has already been attached to <strong>another</strong> post, the file will be duplicated.</em></p>';
 							$('#pending_' + asset.id + ' .obfuscateFilename')
 								.prop('checked', true)
 								.prop('readonly', true)
@@ -272,7 +276,7 @@ var $ = jQuery,
 					expires = '<p>When should this file expire? <span class="expires">' + timeLen + ' ' + timeUnit + '</span>' + baseDate + '</p>',
 					secureFile = '<span>Secure this file? <input class="secureFile assetVal" type="checkbox"></span>',
 					enableFile = '<span>Enable this file? <input class="enableFile assetVal" type="checkbox" checked="checked"></span>',
-					obfuscateFilename = '<p class="duplicate">Duplicate and obfuscate file on server? <input class="obfuscateFilename assetVal" type="checkbox" checked="checked"></p>',
+					obfuscateFilename = '<p class="duplicate">Duplicate and obfuscate file on server? <input class="obfuscateFilename assetVal" type="checkbox"></p>',
 					removeBtn = '<span class="remove corner" title="remove">&times;</span>';
 
 				return '<li id="pending_' + asset.id + '" class="asset">' + niceNameDiv + '<hr><div class="assetMeta">' + expires + baseDate + '<p>' + secureFile + enableFile + '</p>' + obfuscateFilename + '</div>' + removeBtn + '</li>';
