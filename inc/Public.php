@@ -30,7 +30,7 @@ class Assets_Manager_Public {
 	 */
 	public function append_attachments_to_content( $content ) {
 		global $post;
-		if ( 'asset' === $post->post_type ) {
+		if ( 'asset' === $post->post_type and !post_password_required() ) {
 			$attachments = $this->get_enabled_attachments( $post->ID );
 			$content .= $this->format_attachments_as_list( $attachments );
 		}

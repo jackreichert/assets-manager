@@ -22,7 +22,7 @@ Assets Manager is a self-hosted file sharing tool. Born out of the need for a fi
 * Force anyone trying to access a link to log into your site.
 * Creates landing page for each asset post type collecting files uploaded together into one link.
 
-For more information check out the full blogpost about [Assets Manager](http://www.jackreichert.com/2014/01/12/introducing-assets-manager-for-wordpress/). 
+For more information check out the full blogpost about [Assets Manager](http://www.jackreichert.com/2014/01/12/introducing-assets-manager-for-wordpress/).
 Questions? Comments? Requests? [Contact me](http://www.jackreichert.com/contact/).
 
 == Installation ==
@@ -60,7 +60,7 @@ Sure, just drag and drop. No need to save. All reordering happens via AJAX autom
 
 = Does this work with nginx? =
 
-Sure, in some installs you may need to add this to your conf file, I didn't though:
+Sure, in some installs you may need to add this to your conf file, I needed this to serve images correctly:
 `location ~ ^/asset/(.*)$ {
 	try_files $uri $uri/ /index.php?$query_string;
 }`
@@ -78,11 +78,15 @@ Answer to foo bar dilemma.
 5. Share.
 
 == Changelog ==
+= 1.0.2 =
+* Fixed issue with hooks firing when they shouldn’t.
+
+= 1.0.1 =
+* Improved error handling for fopen in case file was deleted.
+
 = 1.0 =
 * Complete refactor of entire codebase.
-* Leverages a better object oriented architecture.
-* Uses fopen for better memory management.
-* Uses wp.media to better leverage core wp features.
+* Leverages a better object oriented architecture, fopen, and wp.media.
 * You can now change the asset base permalink.
 
 = 0.6.2 =
@@ -114,7 +118,7 @@ Fixed additional HR added to posts (props @AEsco11)
 
 = 0.2.6 =
 * Tested up to 4.0
-* Added flush_rewrite_rules() to prevent need for re-saving permalinks on activate 
+* Added flush_rewrite_rules() to prevent need for re-saving permalinks on activate
 
 = 0.2.5 =
 * Changed action to prevent "headers sent" error
