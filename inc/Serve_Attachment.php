@@ -34,7 +34,7 @@ class Assets_Manager_Serve_Attachment {
 	public function main() {
 		global $wp_query;
 
-		if ( 'attachment' != $wp_query->posts[0]->post_type ) {
+		if ( is_admin() || 'attachment' != $wp_query->posts[0]->post_type || 'asset' != get_post_type( $wp_query->posts[0]->post_parent ) ) {
 			return;
 		}
 
@@ -47,7 +47,14 @@ class Assets_Manager_Serve_Attachment {
 			die( 'Headers Sent' );
 		}
 
-		$this->serve_file();
+		if ( $this->path && is_readable( $this->path ) ) {
+			$this->serve_file();
+		} else {
+			$wp_query->set_404();
+			status_header( 404 );
+			get_template_part( 404 );
+			exit();
+		}
 	}
 
 	/**
@@ -76,7 +83,7 @@ class Assets_Manager_Serve_Attachment {
 			echo fread( $handle, 512 );
 		}
 		fclose( $handle );
-		
+
 		exit();
 	}
 
